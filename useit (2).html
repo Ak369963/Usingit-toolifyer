@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health & Conversion Tools</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333;
+            transition: background-color 0.5s;
+        }
+
+        .banner {
+            background-color: #2c3e50; /* Darker blue for the banner */
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 24px; /* Increased font size for the banner */
+        }
+
+        .nav {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            background-color: #3498db; /* Background for navigation */
+        }
+
+        .nav h3 {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #3498db;/* Lighter blue for the nav items */
+            border-bottom: solid 2px darkblue;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+            margin: 0 10px; /* Spacing between items */
+        }
+
+        .nav h3:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /*h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px; /* Increased font size for main title
+        }*/
+
+        .tab-content {
+            display: none;
+            border-top: 1px solid #3498db; /* Border for visual separation */
+            padding-top: 20px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #3498db; /* Change focus border color */
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            outline: none;
+        }
+        
+        .h1 {
+          text-align: center;       /* Center-aligns the text */
+          margin-bottom: 20px;     /* Adds space below the heading */
+          font-size: 28px;         /* Sets a larger font size */
+          color: #2c3e50;          /* Sets the text color to a dark blue */
+          font-weight: bold;        /* Makes the text bold */
+          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60; /* Green color for the convert button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #219653; /* Darker green on hover */
+            transform: scale(1.05);
+            border: solid 4px darkgreen;
+            
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .alert {
+            padding: 10px;
+            background-color: #f9c2c2; /* Light red for error alerts */
+            border-left: 6px solid #c0392b; /* Darker red for the alert border */
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        .error {
+            color: #c0392b; /* Error message color */
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        Ads....
+    </div>
+    <h2>Options/Menu...</h2>
+    <div class="nav">
+        <h3 onclick="showTab('bmi')">BMI Calculator</h3>
+        <h3 onclick="showTab('temp')">Temperature Converter</h3>
+        <h3 onclick="showTab('unit')">Unit Converter</h3>
+    </div>
+
+    <div class="container">
+        <h1 class="h1">Toolify</h1>
+
+        <div id="bmi" class="tab-content active">
+            <h2>BMI Calculator</h2>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" required>
+            
+            <label for="height">Height (m):</label>
+            <input type="number" step="0.01" id="height" required>
+            
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <div id="bmi-result" class="result"></div>
+            <div id="bmi-error" class="alert error"></div> <!-- Error alert -->
+        </div>
+
+        <div id="temp" class="tab-content">
+            <h2>Temperature Converter</h2>
+            <label for="tempValue">Temperature:</label>
+            <input type="number" id="tempValue" required>
+            <label for="tempUnit">Convert From:</label>
+            <select id="tempUnit">
+                <option value="C">Celsius</option>
+                <option value="F">Fahrenheit</option>
+            </select>
+            <button onclick="convertTemperature()">Convert</button>
+            <div id="temp-result" class="result"></div>
+            <div id="temp-error" class="alert error"></div> <!-- Error alert -->
+        </div>
+
+        <div id="unit" class="tab-content">
+            <h2>Unit Converter</h2>
+            <label for="distance">Distance:</label>
+            <input type="number" id="distance" required>
+            <label for="unitType">Convert From:</label>
+            <select id="unitType">
+                <option value="km">Kilometers</option>
+                <option value="miles">Miles</option>
+            </select>
+            <button onclick="convertDistance()">Convert</button>
+            <div id="unit-result" class="result"></div>
+            <div id="unit-error" class="alert error"></div> <!-- Error alert -->
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const resultDiv = document.getElementById('bmi-result');
+            const errorDiv = document.getElementById('bmi-error');
+
+            resultDiv.innerText = ''; // Clear previous results
+            errorDiv.innerText = ''; // Clear previous errors
+
+            if (weight > 0 && height > 0) {
+                const bmi = (weight / (height * height)).toFixed(2);
+                let category;
+
+                if (bmi < 18.5) {
+                    category = "Underweight";
+                } else if (bmi < 24.9) {
+                    category = "Normal weight";
+                } else if (bmi < 29.9) {
+                    category = "Overweight";
+                } else {
+                    category = "Obesity";
+                }
+
+                resultDiv.innerText = `Your BMI is ${bmi}. Category: ${category}`;
+            } else {
+                errorDiv.innerText = 'Please enter valid values for weight and height.';
+                errorDiv.style.display = 'block'; // Show error alert
+            }
+        }
+
+        function convertTemperature() {
+            const tempValue = parseFloat(document.getElementById('tempValue').value);
+            const tempUnit = document.getElementById('tempUnit').value;
+            const resultDiv = document.getElementById('temp-result');
+            const errorDiv = document.getElementById('temp-error');
+
+            resultDiv.innerText = ''; // Clear previous results
+            errorDiv.innerText = ''; // Clear previous errors
+
+            if (!isNaN(tempValue)) {
+                if (tempUnit === 'C') {
+                    const fahrenheit = (tempValue * 9 / 5) + 32;
+                    resultDiv.innerText = `${tempValue} °C = ${fahrenheit.toFixed(2)} °F`;
+                } else {
+                    const celsius = (tempValue - 32) * 5 / 9;
+                    resultDiv.innerText = `${tempValue} °F = ${celsius.toFixed(2)} °C`;
+                }
+            } else {
+                errorDiv.innerText = 'Please enter a valid temperature.';
+                errorDiv.style.display = 'block'; // Show error alert
+            }
+        }
+
+        function convertDistance() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const unitType = document.getElementById('unitType').value;
+            const resultDiv = document.getElementById('unit-result');
+            const errorDiv = document.getElementById('unit-error');
+
+            resultDiv.innerText = ''; // Clear previous results
+            errorDiv.innerText = ''; // Clear previous errors
+
+            if (!isNaN(distance)) {
+                if (unitType === 'km') {
+                    const miles = distance * 0.621371;
+                    resultDiv.innerText = `${distance} km = ${miles.toFixed(2)} miles`;
+                } else {
+                    const kilometers = distance / 0.621371;
+                    resultDiv.innerText = `${distance} miles = ${kilometers.toFixed(2)} km`;
+                }
+            } else {
+                errorDiv.innerText = 'Please enter a valid distance.';
+                errorDiv.style.display = 'block'; // Show error alert
+            }
+        }
+    </script>
+</body>
+</html>
